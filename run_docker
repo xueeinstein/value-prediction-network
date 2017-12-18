@@ -1,0 +1,10 @@
+#!/bin/bash
+PASSWD=billxue
+
+if ! groups $USER | grep "docker"; then
+   sudo groupadd docker
+   sudo usermod -aG docker $USER
+fi
+
+nvidia-docker run --rm -it -p 80:80 -p 5900:5900 -p 8888:8888 -p 6006:6006 \
+     -e VNC_PASSWORD="$PASSWD" -v /home/$USER/Code/rl-vpn:/root/vpn xueeinstein/rl-gym
