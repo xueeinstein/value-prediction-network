@@ -1,0 +1,20 @@
+#!/bin/bash
+
+check_sha256sum(){
+    md5_code=$(sha256sum "$1" | awk '{print $1}')
+    if [ $md5_code == "$2" ]; then
+        echo -e $BOLD_MAGENTA"$1 checksums OK"$NO_COLOR
+    else
+        echo -e $BOLD_RED"$1 checksums Failed"$NO_COLOR
+        exit 1
+    fi
+}
+apt-get update
+apt-get install -y python-bs4 tmux golang libjpeg-turbo8-dev make git
+# wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-amd64.tar.gz
+# check_sha256sum go1.9.2.linux-amd64.tar.gz de874549d9a8d8d8062be05808509c09a88a248e77ec14eb77453530829ac02b
+pip install six opencv-python numpy scipy
+git clone https://github.com/openai/universe.git /root/universe
+pushd /root/universe
+pip install -e .
+popd
